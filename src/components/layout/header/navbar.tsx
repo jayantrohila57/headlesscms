@@ -8,7 +8,7 @@ import Logo from '../logo'
 const Navbar = () => {
   return (
     <div className='border-b'>
-      <div className='flex h-14 items-center px-4'>
+      <div className='flex h-14 items-center px-4 md:px-10'>
         <Logo />
         <MainNav className='mx-auto flex w-full max-w-4xl items-center justify-center pb-1' />
         <div className='ml-auto flex items-center space-x-4'>

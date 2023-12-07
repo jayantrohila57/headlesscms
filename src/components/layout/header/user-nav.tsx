@@ -23,12 +23,14 @@ export async function UserNav() {
       {session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
-              <Avatar className='h-8 w-8'>
-                <AvatarImage src={session?.user?.image ?? './avatar.png'} alt='@shadcn' />
-                <AvatarFallback>SC</AvatarFallback>
-              </Avatar>
-            </Button>
+            <Link href={'/setting/account'}>
+              <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
+                <Avatar className='h-8 w-8'>
+                  <AvatarImage src={session?.user?.image ?? './avatar.png'} alt='@shadcn' />
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+              </Button>
+            </Link>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='w-56' align='end' forceMount>
             <DropdownMenuLabel className='font-normal'>
@@ -41,7 +43,7 @@ export async function UserNav() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link href={'/account'}>
+              <Link href={'/setting/profile'}>
                 <DropdownMenuItem>
                   Profile
                   <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
