@@ -8,11 +8,11 @@ import { site } from '@/setting/site'
 const Navbar = () => {
   return (
     <div className='border-b'>
-      <div className='flex h-16 items-center px-4'>
-        <h2 className='underline-primary text-lg font-semibold underline decoration-wavy'>
+      <div className='flex h-14 items-center px-4'>
+        <h3 className='underline-primary text-lg font-semibold underline decoration-wavy'>
           {site?.name}
-        </h2>
-        <MainNav className='flex justify-center items-center mx-auto w-full max-w-4xl' />
+        </h3>
+        <MainNav className='flex pb-1 justify-center items-center mx-auto w-full max-w-4xl' />
         <div className='ml-auto flex items-center space-x-4'>
           <Search />
           <ModeToggle />

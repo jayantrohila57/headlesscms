@@ -1,3 +1,3 @@
 export const site = {
-  name: 'Cms',
+  name: 'MyStudio',
 }
