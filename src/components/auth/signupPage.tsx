@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { UserAuthForm } from '@/components/auth/userAuthForm'
-import { site } from '@/setting/site'
+import Logo from '../layout/logo'
 
 export const metadata: Metadata = {
   title: 'Authentication',
@@ -41,12 +41,19 @@ export default function SignupComp() {
         >
           Sign in
         </Link>
+        <Link
+          href='/'
+          className={cn(
+            buttonVariants({ variant: 'ghost' }),
+            'absolute right-24 top-4 md:right-28 md:top-4',
+          )}
+        >
+        Go home
+        </Link>
         <div className='relative hidden h-full flex-col bg-muted p-5 text-white dark:border-r lg:flex'>
           <div className='absolute inset-0 bg-zinc-900' />
           <div className='relative z-20 flex items-center text-lg font-medium'>
-            <h3 className='underline-primary text-lg font-semibold underline decoration-wavy'>
-              {site?.name}
-            </h3>
+            <Logo />
           </div>
         </div>
         <div className='lg:p-8'>
