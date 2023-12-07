@@ -1,0 +1,21 @@
+{
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "workbench.reduceMotion": "on",
+  "terminal.integrated.smoothScrolling": true,
+  "editor.smoothScrolling": true,
+  "workbench.list.smoothScrolling": true,
+  "terminal.integrated.scrollback": 2000,
+  "editor.minimap.scale": 2,
+  "editor.minimap.maxColumn": 80,
+  "editor.minimap.autohide": true,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "400",
+  "editor.fontSize": 14,
+  "editor.codeLensFontFamily": "Fira Code",
+  "editor.inlayHints.fontFamily": "Fira Code",
+  "debug.console.fontFamily": "Fira Code",
+  "terminal.integrated.fontFamily": "Fira Code",
+  "markdown.preview.fontFamily": "Fira Code"
+}
