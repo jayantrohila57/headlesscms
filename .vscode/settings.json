@@ -17,5 +17,16 @@
   "editor.inlayHints.fontFamily": "Fira Code",
   "debug.console.fontFamily": "Fira Code",
   "terminal.integrated.fontFamily": "Fira Code",
-  "markdown.preview.fontFamily": "Fira Code"
+  "markdown.preview.fontFamily": "Fira Code",
+  "prettier.semi": false,
+  "prettier.tabWidth": 2,
+  "prettier.arrowParens": "always",
+  "prettier.bracketSpacing": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "prettier.bracketSameLine": false,
+  "prettier.printWidth": 100,
+  "prettier.endOfLine": "lf",
+  "prettier.quoteProps": "as-needed",
+  "prettier.useTabs": false
 }
