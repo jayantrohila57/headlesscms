@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { getServerAuthSession } from '@/server/auth'
 import type { Session } from 'next-auth'
-import SignOut from '@/components/auth/signOut'
+import SignOut from '@/components/auth/signout'
 import Link from 'next/link'
 
 export async function UserNav() {
