@@ -1,11 +1,7 @@
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
-import githubProvider from "next-auth/providers/github";
+import { getServerSession, type DefaultSession, type NextAuthOptions } from 'next-auth'
+import githubProvider from 'next-auth/providers/github'
 
-import { env } from "@/env";
+import { env } from '@/env'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -13,13 +9,13 @@ import { env } from "@/env";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
-      id: string;
+      id: string
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    } & DefaultSession['user']
   }
 
   // interface User {
@@ -58,11 +54,18 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
-};
+  pages: {
+    signIn: '/auth/signin',
+    signOut: '/auth/signout',
+    error: '/auth/error', // Error code passed in query string as ?error=
+    verifyRequest: '/auth/verify', // (used for check email message)
+    newUser: '/auth/new', // New users will be directed here on first sign in (leave the property out if not of interest)
+  },
+}
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const getServerAuthSession = () => getServerSession(authOptions)
