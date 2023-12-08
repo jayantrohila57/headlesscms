@@ -41,6 +41,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoComplete='email'
               autoCorrect='off'
               disabled={isLoading}
+              className={''}
             />
           </div>
           <Button disabled={isLoading}>

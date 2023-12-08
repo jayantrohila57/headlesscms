@@ -10,7 +10,7 @@ const Navbar = () => {
     <div className='border-b'>
       <div className='flex h-14 items-center px-4 md:px-10'>
         <Logo />
-        <MainNav className='mx-auto flex w-full max-w-4xl items-center justify-center pb-1' />
+        <MainNav className='mx-auto flex w-full items-center justify-center  pb-1 pl-12 lg:w-1/5' />
         <div className='ml-auto flex items-center space-x-4'>
           <Search />
           <ModeToggle />

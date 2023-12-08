@@ -1,9 +1,5 @@
+import AccountSetting from '@/components/setting/accountSetting'
 import React from 'react'
 
-const AccountPage = () => {
-  return (
-    <div>AccountPage</div>
-  )
-}
-
+const AccountPage = () => <AccountSetting />
 export default AccountPage

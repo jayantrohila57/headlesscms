@@ -5,7 +5,7 @@ import React from 'react'
 const Logo = () => {
   return (
     <Link href={'/'}>
-      <h3 className='underline-primary text-lg font-semibold underline decoration-wavy'>
+      <h3 className='underline-primary pb-1 text-lg font-semibold underline decoration-wavy'>
         {site?.name}
       </h3>
     </Link>

@@ -48,7 +48,7 @@ export default function SignupComp() {
             'absolute right-24 top-4 md:right-28 md:top-4',
           )}
         >
-        Go home
+          Go home
         </Link>
         <div className='relative hidden h-full flex-col bg-muted p-5 text-white dark:border-r lg:flex'>
           <div className='absolute inset-0 bg-zinc-900' />
