@@ -13,8 +13,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { getServerAuthSession } from '@/server/auth'
 import type { Session } from 'next-auth'
-import Signout from '@/components/auth/signout'
+
 import Link from 'next/link'
+import SignoutButton from '@/components/auth/signoutButton'
 
 export async function UserNav() {
   const session: Session | null = await getServerAuthSession()
@@ -63,10 +64,10 @@ export async function UserNav() {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <Signout>
+            <SignoutButton>
               <span className='w-full pr-28'>Sign out</span>
               <LogOutIcon className='h-4 w-4' />
-            </Signout>
+            </SignoutButton>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
