@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { getServerAuthSession } from '@/server/auth'
 import type { Session } from 'next-auth'
-import SignOut from '@/components/auth/signout'
+import Signout from '@/components/auth/signout'
 import Link from 'next/link'
 
 export async function UserNav() {
@@ -63,10 +63,10 @@ export async function UserNav() {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <SignOut>
+            <Signout>
               <span className='w-full pr-28'>Sign out</span>
               <LogOutIcon className='h-4 w-4' />
-            </SignOut>
+            </Signout>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
