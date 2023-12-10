@@ -71,7 +71,7 @@ export async function UserNav() {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Button variant={'outline'} asChild>
+        <Button variant={'default'} asChild>
           <Link href='/auth/signin'>Sign in</Link>
         </Button>
       )}

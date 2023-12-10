@@ -15,22 +15,6 @@ export const metadata: Metadata = {
 export default function SignupComp() {
   return (
     <>
-      <div className='md:hidden'>
-        <Image
-          src='/examples/authentication-light.png'
-          width={1280}
-          height={843}
-          alt='Authentication'
-          className='block dark:hidden'
-        />
-        <Image
-          src='/examples/authentication-dark.png'
-          width={1280}
-          height={843}
-          alt='Authentication'
-          className='hidden dark:block'
-        />
-      </div>
       <div className='container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0'>
         <Link
           href='/auth/signin'
@@ -51,7 +35,20 @@ export default function SignupComp() {
           Go home
         </Link>
         <div className='relative hidden h-full flex-col bg-muted p-5 text-white dark:border-r lg:flex'>
-          <div className='absolute inset-0 bg-zinc-900' />
+          <div className='absolute inset-0 hidden h-screen object-cover md:block'>
+            <Image
+              src='https://images.unsplash.com/photo-1659982182055-1a98e49534c7?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+              fill
+              alt='Authentication'
+              className='block h-full w-auto object-cover dark:hidden'
+            />
+            <Image
+              src='https://images.unsplash.com/photo-1661819983415-d5f4f6597f91?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+              fill
+              alt='Authentication'
+              className='hidden h-full w-auto object-cover dark:block'
+            />
+          </div>
           <div className='relative z-20 flex items-center text-lg font-medium'>
             <Logo />
           </div>
