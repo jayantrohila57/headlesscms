@@ -8,7 +8,7 @@ const config = {
   singleQuote: true,
   bracketSameLine: false,
   printWidth: 100,
-  endOfLine: 'lf',
+  endOfLine: 'crlf',
   quoteProps: 'as-needed',
   useTabs: false,
   plugins: ['prettier-plugin-tailwindcss'],

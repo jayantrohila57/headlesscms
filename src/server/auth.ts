@@ -1,76 +1,69 @@
-import { getServerSession, type DefaultSession, type NextAuthOptions } from 'next-auth'
-import githubProvider from 'next-auth/providers/github'
-import googleProvider from 'next-auth/providers/google'
+import { getServerSession } from 'next-auth'
+import type { NextAuthOptions } from 'next-auth'
+import githubProvider, { type GithubProfile } from 'next-auth/providers/github'
+import googleProvider, { type GoogleProfile } from 'next-auth/providers/google'
+import { MongoClient } from 'mongodb'
+import { MongoDBAdapter, type MongoDBAdapterOptions } from '@auth/mongodb-adapter'
 
 import { env } from '@/env'
+import { type Adapter } from 'next-auth/adapters'
 
-/**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
-declare module 'next-auth' {
-  interface Session extends DefaultSession {
-    user: {
-      id: string
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession['user']
-  }
+const options: MongoDBAdapterOptions = {}
+const client: MongoClient | undefined = new MongoClient(env.MONGODB_URI)
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
-}
+const clientPromise: Promise<MongoClient> = client.connect()
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-      },
-    }),
+  adapter: MongoDBAdapter(clientPromise, options) as Adapter,
+  debug: true,
+  session: {
+    strategy: 'jwt',
   },
   providers: [
     githubProvider({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+      profile(profile: GithubProfile) {
+        return {
+          ...profile,
+          role: profile.email === 'jrohila55@gmail.com' ? 'ADMIN' : 'USER',
+          id: profile.id.toString(),
+          image: profile.avatar_url,
+          name: profile.name,
+        }
+      },
     }),
     googleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      profile(profile: GoogleProfile) {
+        return {
+          ...profile,
+          role: profile.email === 'jrohila55@gmail.com' ? 'ADMIN' : 'USER',
+          id: profile.sub,
+          image: profile.picture,
+          name: profile.name,
+        }
+      },
     }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the GITHUB provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.role = user.role
+      return token
+    },
+    async session({ session, token }) {
+      if (session?.user) session.user.role = token.role
+      return session
+    },
+  },
   pages: {
     signIn: '/auth/signin',
     signOut: '/auth/signout',
-    error: '/auth/error', // Error code passed in query string as ?error=
-    verifyRequest: '/auth/verify', // (used for check email message)
-    newUser: '/auth/new', // New users will be directed here on first sign in (leave the property out if not of interest)
+    error: '/auth/error',
+    verifyRequest: '/auth/verify',
+    newUser: '/auth/new',
   },
 }
 
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
 export const getServerAuthSession = () => getServerSession(authOptions)

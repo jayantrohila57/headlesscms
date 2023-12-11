@@ -27,7 +27,7 @@ export async function UserNav() {
             <Link href={'/setting/account'}>
               <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
                 <Avatar className='h-8 w-8'>
-                  <AvatarImage src={session?.user?.image ?? './avatar.png'} alt='@shadcn' />
+                  <AvatarImage src={session?.user?.image ?? './avatar.png'} alt='@user Image' />
                   <AvatarFallback>SC</AvatarFallback>
                 </Avatar>
               </Button>
