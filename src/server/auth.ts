@@ -1,20 +1,59 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { getServerSession } from 'next-auth'
 import type { NextAuthOptions } from 'next-auth'
-import githubProvider, { type GithubProfile } from 'next-auth/providers/github'
-import googleProvider, { type GoogleProfile } from 'next-auth/providers/google'
+import githubProvider from 'next-auth/providers/github'
+import googleProvider from 'next-auth/providers/google'
 import { MongoClient } from 'mongodb'
 import { MongoDBAdapter, type MongoDBAdapterOptions } from '@auth/mongodb-adapter'
+import type { DefaultSession } from 'next-auth'
+import { type GithubProfile } from 'next-auth/providers/github'
+import { type GoogleProfile } from 'next-auth/providers/google'
 
 import { env } from '@/env'
-import { type Adapter } from 'next-auth/adapters'
 
+export type IRole = 'USER' | 'MEMBER' | 'ADMIN'
+export type IMembership = 'FREE' | 'PAID' | 'ENTERPRISE'
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    role: IRole
+    membership: IMembership
+  }
+}
+declare module 'next-auth' {
+  interface Profile extends GithubProfile {
+    user: {
+      role: IRole
+      id: string
+      membership: IMembership
+    }
+  }
+  interface Profile extends GoogleProfile {
+    user: {
+      role: IRole
+      id: string
+      membership: IMembership
+    }
+  }
+  interface Session extends DefaultSession {
+    user: {
+      role: IRole
+      name: string
+      email: string
+      image: string
+      id: string
+      membership: IMembership
+
+    }
+  }
+}
 const options: MongoDBAdapterOptions = {}
 const client: MongoClient | undefined = new MongoClient(env.MONGODB_URI)
 
 const clientPromise: Promise<MongoClient> = client.connect()
 
 export const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(clientPromise, options) as Adapter,
+  adapter: MongoDBAdapter(clientPromise, options),
   debug: true,
   session: {
     strategy: 'jwt',
@@ -23,37 +62,45 @@ export const authOptions: NextAuthOptions = {
     githubProvider({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
-      profile(profile: GithubProfile) {
+      profile: async ({ email, name, avatar_url, id, }: GithubProfile) => {
         return {
-          ...profile,
-          role: profile.email === 'jrohila55@gmail.com' ? 'ADMIN' : 'USER',
-          id: profile.id.toString(),
-          image: profile.avatar_url,
-          name: profile.name,
+          role: email == 'jrohila55@gmail.com' ? 'ADMIN' : "USER",
+          name: name,
+          email: email,
+          image: avatar_url,
+          id: id.toString(),
+          membership: email == 'jrohila55@gmail.com' ? 'PAID' : "FREE"
         }
       },
     }),
     googleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      profile(profile: GoogleProfile) {
+      profile: async ({ email, name, sub, picture, }: GoogleProfile) => {
         return {
-          ...profile,
-          role: profile.email === 'jrohila55@gmail.com' ? 'ADMIN' : 'USER',
-          id: profile.sub,
-          image: profile.picture,
-          name: profile.name,
+          role: email == 'jrohila55@gmail.com' ? 'ADMIN' : "USER",
+          name: name,
+          email: email,
+          image: picture,
+          id: sub,
+          membership: email == 'jrohila55@gmail.com' ? 'PAID' : "FREE"
         }
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.role = user.role
+    jwt: async ({ token, profile }) => {
+      if (profile) {
+        token.role = profile?.role
+        token.membership = profile?.membership
+      }
       return token
     },
-    async session({ session, token }) {
-      if (session?.user) session.user.role = token.role
+    session: async ({ session, token }) => {
+      if (session) {
+        session.user.role = token?.role
+        session.user.membership = token?.membership
+      }
       return session
     },
   },
